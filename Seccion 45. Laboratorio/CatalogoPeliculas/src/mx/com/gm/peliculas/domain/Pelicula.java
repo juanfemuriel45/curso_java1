@@ -13,7 +13,7 @@ public class Pelicula {
     }
 
     public Pelicula(String nombre) {
-
+        this.nombre = nombre;
     }
 
     public String getNombre() {
@@ -26,6 +26,6 @@ public class Pelicula {
 
     @Override
     public String toString() {
-        return "Pelicula{" + "nombre=" + nombre + '}';
+        return this.nombre;
     }
 }
