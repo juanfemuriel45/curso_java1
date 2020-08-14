@@ -1,29 +1,48 @@
 package test;
 
+import datos.Conexion;
 import datos.UsuarioDAO;
 import domain.Usuario;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  *
  * @author juanfelipemurielvalencia
  */
 public class TestUsuarios {
+
     public static void main(String[] args) {
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        List<Usuario> usuarios = usuarioDAO.seleccionar();
-        
-//        //select de la tabla usuarios
-//        usuarios.forEach((usuario) -> {
-//            System.out.println("usuario = " + usuario);
-//        });
-        
-        //update
-        Usuario usuarioActualizar = new Usuario(1, "juann", "juann");
-        System.out.println("Usuario actualizado: " + usuarioDAO.actualizar(usuarioActualizar));
-        
-//        //insert
-//        Usuario usuarioNuevo = new Usuario("juan4", "juan4p");
-//        System.out.println("# Usuarios insertados: "+ usuarioDAO.insertar(usuarioNuevo));        
+        Connection conexion = null;
+
+        try {
+            conexion = Conexion.getConnection();
+            if (conexion.getAutoCommit()){
+                conexion.setAutoCommit(false);
+            }
+            
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            Usuario usuarioNuevo = new Usuario();
+            usuarioNuevo.setUsuario("Juannuevo");
+            usuarioNuevo.setPassword("newpass");
+            usuarioDAO.insertar(usuarioNuevo);
+            
+            
+            Usuario usuarioModificar = new Usuario();
+            usuarioModificar.setId_usuario(1);
+            usuarioModificar.setUsuario("new user");
+            usuarioModificar.setPassword("New password");
+            usuarioDAO.actualizar(usuarioModificar);
+            
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Entramos al rollback");
+            try {
+                conexion.rollback();
+            } catch (SQLException ex1) {
+                ex1.printStackTrace();
+            }
+        }
     }
 }
