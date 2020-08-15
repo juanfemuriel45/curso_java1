@@ -9,7 +9,7 @@ import java.util.*;
  *
  * @author juanfelipemurielvalencia
  */
-public class PersonaDAO {
+public class PersonaJdbcDAO implements IPersonaDAO{
 
     private Connection conexionTransaccional;
 
@@ -18,8 +18,15 @@ public class PersonaDAO {
     private static final String SQL_DELETE = "DELETE FROM personas WHERE id_persona = ?";
     private static final String SQL_UPDATE = "UPDATE personas SET nombre = ?, apellido = ?, email = ?, telefono = ? WHERE id_persona = ?";
 
+    public PersonaJdbcDAO(){
+        
+    }
     
+    public PersonaJdbcDAO(Connection conexionTransaccional){
+        this.conexionTransaccional = conexionTransaccional;
+    }
 
+    @Override
     public List<Persona> seleccionar() throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -59,6 +66,7 @@ public class PersonaDAO {
         return personas;
     }
 
+    @Override
     public int insertar(Persona persona) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -91,6 +99,7 @@ public class PersonaDAO {
         return registros;
     }
 
+    @Override
     public int eliminar(Persona persona) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -114,6 +123,7 @@ public class PersonaDAO {
 
     }
 
+    @Override
     public int actualizar(Persona persona) throws SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -138,6 +148,5 @@ public class PersonaDAO {
             }
         }
         return registros;
-
     }
 }

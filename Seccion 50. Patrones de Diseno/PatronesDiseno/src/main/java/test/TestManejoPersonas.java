@@ -1,9 +1,11 @@
 package test;
 
 import datos.Conexion;
-import datos.PersonaDAO;
+import datos.IPersonaDAO;
+import datos.PersonaJdbcDAO;
 import domain.Persona;
 import java.sql.*;
+import java.util.List;
 
 /**
  *
@@ -19,25 +21,16 @@ public class TestManejoPersonas {
                 conexion.setAutoCommit(false);
             }
             
-             PersonaDAO personaDAO = new PersonaDAO();
+            // se usa la interface
+             IPersonaDAO personaJdbcDao = new PersonaJdbcDAO(conexion);
+             List<Persona> personas = personaJdbcDao.seleccionar();
              
-             Persona cambioPersona = new Persona();
-             cambioPersona.setIdPersona(2);
-             cambioPersona.setNombre("Jessica");
-             cambioPersona.setApellido("muriel");
-             cambioPersona.setEmail("nuevoemail@mail.com");
-             cambioPersona.setTelefono("234");
-             personaDAO.actualizar(cambioPersona);
-             
-             
-             Persona nuevaPersona = new Persona();
-             nuevaPersona.setNombre("fernando");
-             nuevaPersona.setApellido("Lozada");
-             nuevaPersona.setEmail("email@mail.com");
-             nuevaPersona.setTelefono("322");
-             personaDAO.insertar(nuevaPersona);
+             for(Persona persona : personas){
+                 System.out.println("persona : " + persona);
+             }
              
              conexion.commit();
+             System.out.println("Se ha hecho commit");
              
              
         } catch (SQLException ex) {
