@@ -2,11 +2,12 @@
 <html>
     <head>
         <title>Ejercicio Formulario</title>
+        <meta charset="UTF-8" >
         <link rel="stylesheet" type="text/css" href="recursos/estilos.css">
         <script type="text/javascript" src="recursos/funciones.js"></script>
     </head>
     <body>
-        <form name="form1" action="/ManejoFormulariosHTML" method="post"
+        <form name="form1" action="/ManejoFormulariosHTML/Servlet" method="post"
               onsubmit="return validarForma(this)">
             <input type="hidden" name="oculto" value="valorOculto"/>
 
@@ -34,7 +35,7 @@
                 </tr>
                 <tr>
                     <td class="columna">
-                        Tecnologias de Internet: (*)
+                        Tecnologías de Internet: (*)
                     </td>
                     <td>
                         Java <input type="checkbox" name="tecnologia" value="java">
